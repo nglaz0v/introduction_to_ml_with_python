@@ -1,12 +1,16 @@
+# conda env create -f environment.yml
 name: python-ml
 dependencies:
-  - numpy
-  - scipy
-  - scikit-learn
-  - matplotlib
-  - pandas
-  - pillow
+  - python=3.10.12
+  - notebook=7.4.5
+  - numpy=1.25.2
+  - scipy=1.10.1
+  - scikit-learn=1.2.2
+  - scikit-learn-intelex=2025.8.0
+  - matplotlib=3.6.0
+  - pandas=1.5.3
+  - pillow=10.4.0
   - graphviz
   - python-graphviz
   - imageio
-  - joblib
+  - joblib=1.3.2
