@@ -5,6 +5,7 @@ from scipy import signal
 from sklearn.preprocessing import MinMaxScaler, PolynomialFeatures
 from sklearn.datasets import make_blobs
 from sklearn.utils import Bunch
+import requests
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "data")
 
@@ -27,17 +28,23 @@ def make_wave(n_samples=100):
     return x.reshape(-1, 1), y
 
 
-def load_boston():
+def load_boston(*, return_X_y=False):
     try:
         from sklearn.datasets import load_boston
-        return load_boston()
+        return load_boston(return_X_y=return_X_y)
     except ImportError:
         pass
     data_url = "http://lib.stat.cmu.edu/datasets/boston"
     raw_df = pd.read_csv(data_url, sep="\s+", skiprows=22, header=None)
+    columns = pd.read_csv(data_url, sep="\s+", skiprows=7, nrows=14, usecols=[0], header=None)
+    resp = requests.get(data_url)
     data = np.hstack([raw_df.values[::2, :], raw_df.values[1::2, :2]])
     target = raw_df.values[1::2, 2]
-    return Bunch(data=data, target=target)
+    feature_names = columns[0].values[:-1]
+    DESCR = resp.text[:resp.text.find("$1000's")+7]
+    if return_X_y:
+        return data, target
+    return Bunch(data=data, target=target, feature_names=feature_names, DESCR=DESCR)
 
 
 def load_extended_boston():
