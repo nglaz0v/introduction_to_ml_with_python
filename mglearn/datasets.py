@@ -7,7 +7,7 @@ from sklearn.datasets import make_blobs
 from sklearn.utils import Bunch
 import requests
 
-DATA_PATH = os.path.join(os.path.dirname(__file__), "data")
+DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data")
 
 
 def make_forge():
